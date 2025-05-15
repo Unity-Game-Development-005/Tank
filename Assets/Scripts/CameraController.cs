@@ -12,10 +12,10 @@ public class CameraController : MonoBehaviour
     private Vector3 cameraPosition;
 
     // third person camera follow offset position
-    private Vector3 firstPersonCameraOffestPosition = new Vector3(0, 4, 3);
+    private Vector3 firstPersonCameraOffestPosition = new Vector3(0, 4, -3);
 
     // first person camera follow offset position
-    private Vector3 thirdPersonCameraOffestPosition = new Vector3(0, 10, -10);
+    private Vector3 thirdPersonCameraOffestPosition = new Vector3(0, 10, 10);
 
     // bool to switch camera pov
     // true = first person / false = third person  

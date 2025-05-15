@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // movement speed of vehicle
-    private float vehicleSpeed = 6f;
+    [SerializeField] private float vehicleSpeed = 6f;
 
     // turn speed of vehicle
     private float turnSpeed = 40f;
@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
 
     // turning control
     private float horizontalInput;
+
+    // player camera
+    public int playerIndex;
 
 
 
@@ -37,9 +40,9 @@ public class PlayerController : MonoBehaviour
     // get player input
     private void GetPlayerInput()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+        horizontalInput = Input.GetAxis("Horizontal" + playerIndex);
 
-        verticalInput = Input.GetAxis("Vertical");
+        verticalInput = Input.GetAxis("Vertical" + playerIndex);
 
         MoveVehicle();
     }
@@ -48,12 +51,18 @@ public class PlayerController : MonoBehaviour
     private void MoveVehicle()
     {
         // move the vehicle forward or backwards
-        transform.Translate(Vector3.forward * verticalInput * vehicleSpeed * Time.deltaTime);
+        transform.Translate(Time.deltaTime * vehicleSpeed * verticalInput * Vector3.forward);
 
-        // if the vehicle is moving, allow it to turn
-        if (verticalInput != 0f)
+        // if the vehicle is moving forward, turn the vehicle normally
+        if (verticalInput > 0f)
         {
-            transform.Rotate(Vector3.up * horizontalInput * turnSpeed * Time.deltaTime);
+            transform.Rotate(horizontalInput * Time.deltaTime * turnSpeed * Vector3.up);
+        }
+
+        // if the vehicle is reversing, reverse the vehicles turn direction
+        else if (verticalInput < 0f)
+        {
+            transform.Rotate(horizontalInput * Time.deltaTime * turnSpeed * Vector3.down);
         }
     }
 }
